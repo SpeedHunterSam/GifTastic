@@ -1,0 +1,22 @@
+/*set the rules for the entire page */
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    background: lightgray;
+    padding: 30px
+  }
+
+  div{
+      padding: 20px;
+  }
+
+  img{
+      padding:15px;
+  }
+
+  .buttons{
+
+    padding:10px;
+  }
+

@@ -8,7 +8,7 @@ Pseudo code
 
 */
 
-let arrayOfAnimials = ["Dogs", "Cats", "Fox", "Squirrels", "Bunnies", "Horse", "Lions", "Monkeys"];
+let arrayOfAnimials = ["Dogs", "Cats", "Turtle", "Squirrels", "Bunnies", "Horse", "Lions", "Monkeys"];
 
 
 
@@ -30,6 +30,8 @@ function showButtons() {
         a.setAttribute("data-name", arrayOfAnimials[i]);
         // Providing the button's text with a value of the movie at index i
         a.innerHTML = arrayOfAnimials[i];
+        a.setAttribute("class", "btn btn-primary mr-1");
+
         // Adding the button to the HTML
         document.getElementById("buttons").append(a);
     }
@@ -40,31 +42,34 @@ function getGifs(searchTerm) {
 
     const apiKey = "HbfrJBcfJklMtkN0TmF5hNFYmZCT8Ted"; // my api key for giphy
 
-    const queryURL = "https://api.giphy.com/v1/gifs/search?q=" + searchTerm + "&api_key=" + apiKey + "&limit=1"; // queryURL to be used in fetch 
+    const queryURL = "https://api.giphy.com/v1/gifs/search?q=" + searchTerm + "&api_key=" + apiKey + "&limit=2"; // queryURL to be used in fetch 
 
     console.log(searchTerm);
-    
+
 
     fetch(queryURL).then(function (response) {
         return response.json()
     }).then(function (responseJson) {
         console.log(responseJson);  //making sure that objects are being received through api
-        const image = document.createElement("img");  //creaing image elements
-        image.setAttribute('id', 'myImage');
 
-        document.body.appendChild(image); //writing new element to the DOM
+        for (let i = 0; i < 2; i++) { // looping to write two images to the dom
 
+            const image = document.createElement("img");  //creaing image elements
+            image.setAttribute('id', 'myImage');
+
+            document.getElementById("images").prepend(image); //writing new element to the DOM
 
             //adding attributes to the img tag on the DOM
-        const animalImage = document.getElementById("myImage");
-        animalImage.setAttribute("src", responseJson.data[0].images.fixed_height_still.url);
-        animalImage.setAttribute("data-still", responseJson.data[0].images.fixed_height_still.url);
-        animalImage.setAttribute("data-animate", responseJson.data[0].images.fixed_height.url);
-        animalImage.setAttribute("data-state","still");
-        animalImage.setAttribute("class","gif");
-
-
+            const animalImage = document.getElementById("myImage");
+            animalImage.setAttribute("src", responseJson.data[i].images.fixed_height_still.url);
+            animalImage.setAttribute("data-still", responseJson.data[i].images.fixed_height_still.url);
+            animalImage.setAttribute("data-animate", responseJson.data[i].images.fixed_height.url);
+            animalImage.setAttribute("data-state", "still");
+            animalImage.setAttribute("class", "gif");
+            
+        }
         animateTheGifs();
+
     });
 
 }
@@ -92,7 +97,6 @@ function animateTheGifs(){  // function that runs and sets an event listener on 
 }
 
 showButtons();  //first function to run
-
 
 document.getElementById("buttons").addEventListener("click", function (event) {
 
