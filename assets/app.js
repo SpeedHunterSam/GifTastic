@@ -42,7 +42,7 @@ function getGifs(searchTerm) {
 
     const apiKey = "HbfrJBcfJklMtkN0TmF5hNFYmZCT8Ted"; // my api key for giphy
 
-    const queryURL = "https://api.giphy.com/v1/gifs/search?q=" + searchTerm + "&api_key=" + apiKey + "&limit=2"; // queryURL to be used in fetch 
+    const queryURL = "https://api.giphy.com/v1/gifs/search?q=" + searchTerm + "&api_key=" + apiKey + "&limit=10"; // queryURL to be used in fetch 
 
     console.log(searchTerm);
 
@@ -52,7 +52,8 @@ function getGifs(searchTerm) {
     }).then(function (responseJson) {
         console.log(responseJson);  //making sure that objects are being received through api
 
-        for (let i = 0; i < 2; i++) { // looping to write two images to the dom
+        for (let i = 0; i < 10; i++) { // looping to write two images to the dom
+
 
             const image = document.createElement("img");  //creaing image elements
             image.setAttribute('id', 'myImage');
@@ -66,7 +67,13 @@ function getGifs(searchTerm) {
             animalImage.setAttribute("data-animate", responseJson.data[i].images.fixed_height.url);
             animalImage.setAttribute("data-state", "still");
             animalImage.setAttribute("class", "gif");
-            
+
+            //display rating of gif
+            const p = document.createElement("p");
+            p.innerHTML = "Rated: " + responseJson.data[i].rating;
+            document.getElementById("images").prepend(p);
+
+
         }
         animateTheGifs();
 
