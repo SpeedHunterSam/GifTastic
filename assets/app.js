@@ -52,17 +52,46 @@ function getGifs(searchTerm) {
         const image = document.createElement("img");  //creaing image elements
         image.setAttribute('id', 'myImage');
 
-        document.body.appendChild(image);
+        document.body.appendChild(image); //writing new element to the DOM
 
+
+            //adding attributes to the img tag on the DOM
         const animalImage = document.getElementById("myImage");
-        console.log(responseJson.data[0].images.downsized.url);
-        animalImage.setAttribute("src", responseJson.data[0].images.downsized.url);
+        animalImage.setAttribute("src", responseJson.data[0].images.fixed_height_still.url);
+        animalImage.setAttribute("data-still", responseJson.data[0].images.fixed_height_still.url);
+        animalImage.setAttribute("data-animate", responseJson.data[0].images.fixed_height.url);
+        animalImage.setAttribute("data-state","still");
+        animalImage.setAttribute("class","gif");
 
+
+        animateTheGifs();
     });
 
 }
 
-showButtons();
+function animateTheGifs(){  // function that runs and sets an event listener on the newly loaded gifs
+
+    document.querySelectorAll(".gif").forEach(function (img) {
+        img.addEventListener("click", function (event) {
+    
+          // The javascript getAttribute method allows us to get or set the value of any attribute on our HTML element
+          const state = event.target.getAttribute("data-state");
+          // If the clicked image's state is still, update its src attribute to what its data-animate value is.
+          // Then, set the image's data-state to animate
+          // Else set src to the data-still value
+          if (state === "still") {
+            event.target.setAttribute("src", event.target.getAttribute("data-animate"));
+            event.target.setAttribute("data-state", "animate");
+          } else {
+            event.target.setAttribute("src", event.target.getAttribute("data-still"));
+            event.target.setAttribute("data-state", "still");
+          }
+        });
+      });
+
+}
+
+showButtons();  //first function to run
 
 
 document.getElementById("buttons").addEventListener("click", function (event) {
@@ -72,6 +101,7 @@ document.getElementById("buttons").addEventListener("click", function (event) {
     console.log("Button Clicked: " + buttonValue)
     getGifs(buttonValue.trim());
 });
+
 
 //add event listener for text box / user input
 
@@ -87,6 +117,7 @@ document.getElementById("search-gifs").addEventListener("click", function (event
     // reprossing butons at top of screen
     showButtons();
 });
+
 
 
 
